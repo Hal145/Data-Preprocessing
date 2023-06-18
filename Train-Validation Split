@@ -1,27 +1,21 @@
-# 1- Function to split train dataset which includes the directories of more than one class into train and validation sets.
+# 1- Function to split train dataset into train and validation sets, including the directories of more than one class.
 # 2- Creates sub-directories and directories of the train and validation classes.
 
-# İmport the python modules
 import os
 import shutil
 from sklearn.model_selection import train_test_split
 
-# Set the root directory of your dataset
 root_dir = 'path/to/the/data/directory'
 
-# Set the percentage of data to be used for validation
 val_split = 0.2
 
-# Get the list of classes in the dataset
 classes = os.listdir(root_dir)
 
-# Create the directories for the train and validation sets
 train_dir = os.path.join(root_dir, 'train')
 val_dir = os.path.join(root_dir, 'val')
 os.makedirs(train_dir, exist_ok=True)
 os.makedirs(val_dir, exist_ok=True)
 
-# Loop through each class folder and split the data into train and validation sets
 for cls in classes:
     cls_dir = os.path.join(root_dir, cls)
     train_cls_dir = os.path.join(train_dir, cls)
@@ -29,11 +23,9 @@ for cls in classes:
     os.makedirs(train_cls_dir, exist_ok=True)
     os.makedirs(val_cls_dir, exist_ok=True)
     
-    # Split the data into train and validation sets
     files = os.listdir(cls_dir)
     train_files, val_files = train_test_split(files, test_size=val_split, shuffle=True)
     
-    # Copy the files to the train and validation directories
     for file in train_files:
         src = os.path.join(cls_dir, file)
         dst = os.path.join(train_cls_dir, file)
